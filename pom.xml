@@ -6,13 +6,13 @@
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
 		<version>2.1.2.RELEASE</version>
-		<relativePath/> <!-- lookup parent from repository -->
+		<relativePath/> <!-- lookup parent from sensor.elastics.demo.repository -->
 	</parent>
 	<groupId>sensor.elastics</groupId>
 	<artifactId>demo</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>elastisensor</name>
-	<description>Demo project to test a sensor data model with elasti-search</description>
+	<description>Demo project to test a sensor data sensor.elastics.demo.model with elasti-search</description>
 
 	<properties>
 		<java.version>1.8</java.version>
@@ -73,6 +73,26 @@
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
 		</dependency>
+		<dependency>
+			<groupId>javax.measure</groupId>
+			<artifactId>unit-api</artifactId>
+			<version>1.0</version>
+		</dependency>
+		<dependency>
+			<groupId>tec.units</groupId>
+			<artifactId>unit-ri</artifactId>
+			<version>1.0.3</version>
+		</dependency>
+
+		<!-- Runtime, for Embedded Elasticsearch,
+                    comment this if connect to external elastic search server-->
+		<dependency>
+			<groupId>net.java.dev.jna</groupId>
+			<artifactId>jna</artifactId>
+			<scope>runtime</scope>
+		</dependency>
+
+
 	</dependencies>
 
 	<build>
