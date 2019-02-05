@@ -7,6 +7,7 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.data.elasticsearch.core.ElasticsearchOperations;
+import org.springframework.data.elasticsearch.core.ElasticsearchTemplate;
 import sensor.elastics.demo.model.Reading;
 import sensor.elastics.demo.service.ReadingService;
 import sensor.elastics.demo.service.ReadingServiceES;
@@ -14,15 +15,18 @@ import tec.units.ri.quantity.Quantities;
 import tec.units.ri.unit.Units;
 
 import java.time.Instant;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
-
+/**
+ * Main entry point of application
+ */
 @SpringBootApplication
 public class ElastisensorApplication implements CommandLineRunner{
 
 	@Autowired
-	private ElasticsearchOperations es;
+	private ElasticsearchTemplate es;
 
 	@Autowired
 	private ReadingService readingService;
@@ -31,11 +35,15 @@ public class ElastisensorApplication implements CommandLineRunner{
 		SpringApplication.run(ElastisensorApplication.class, args);
 	}
 
+
 	@Override
 	public void run(String... args) throws Exception {
 
 		printElasticSearchInfo();
 
+		/*
+		Insert some reading inside elastic search service
+		 */
 		readingService.save(new Reading("123","t-probe",
 				Quantities.getQuantity(23.02, Units.CELSIUS),
 						Instant.parse("2018-12-03T10:15:30.00Z")));
@@ -56,7 +64,9 @@ public class ElastisensorApplication implements CommandLineRunner{
 
 	}
 
-
+	/**
+	 * Print on standard output elastic search transport client basic information
+	 */
 	private void printElasticSearchInfo(){
 
 		System.out.println("--ElasticSearch--");

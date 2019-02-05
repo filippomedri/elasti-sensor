@@ -1,26 +1,31 @@
 package sensor.elastics.demo.model;
 
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.elasticsearch.annotations.Document;
-import sensor.elastics.demo.serializer.QuantitySerializer;
-
 
 import javax.measure.Quantity;
+import javax.measure.Unit;
 import java.time.Instant;
 import java.util.Objects;
 
-@Document(indexName = "sensor", type = "readings")
-public class Reading{
+/**
+ * Class responsible to keep reading from sensor information
+ *
+ */
+@Document(indexName = "sensor", type = "reading")
+public class Reading {
 
     @Id
     private String id;
 
     private String sensorName;
 
-    @JsonSerialize(using = QuantitySerializer.class)
-    private Quantity quantity;
+    private Number quantityValue;
 
+    private Unit quantityUnit;
+
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "UTC")
     private Instant timestamp;
 
     public Reading() {
@@ -29,7 +34,8 @@ public class Reading{
     public Reading(String id, String sensorName, Quantity quantity, Instant timestamp) {
         this.id = id;
         this.sensorName = sensorName;
-        this.quantity = quantity;
+        this.quantityValue = quantity.getValue();
+        this.quantityUnit = quantity.getUnit();
         this.timestamp = timestamp;
     }
 
@@ -49,12 +55,20 @@ public class Reading{
         this.sensorName = sensorName;
     }
 
-    public Quantity getQuantity() {
-        return quantity;
+    public Number getQuantityValue() {
+        return quantityValue;
     }
 
-    public void setQuantity(Quantity quantity) {
-        this.quantity = quantity;
+    public void setQuantityValue(Number quantityValue) {
+        this.quantityValue = quantityValue;
+    }
+
+    public Unit getQuantityUnit() {
+        return quantityUnit;
+    }
+
+    public void setQuantityUnit(Unit quantityUnit) {
+        this.quantityUnit = quantityUnit;
     }
 
     public Instant getTimestamp() {
@@ -72,14 +86,15 @@ public class Reading{
         Reading reading = (Reading) o;
         return Objects.equals(id, reading.id) &&
                 Objects.equals(sensorName, reading.sensorName) &&
-                Objects.equals(quantity, reading.quantity) &&
+                Objects.equals(quantityValue, reading.quantityValue) &&
+                Objects.equals(quantityUnit, reading.quantityUnit) &&
                 Objects.equals(timestamp, reading.timestamp);
     }
 
     @Override
     public int hashCode() {
 
-        return Objects.hash(id, sensorName, quantity, timestamp);
+        return Objects.hash(id, sensorName, quantityValue, quantityUnit, timestamp);
     }
 
     @Override
@@ -87,9 +102,9 @@ public class Reading{
         return "Reading{" +
                 "id='" + id + '\'' +
                 ", sensorName='" + sensorName + '\'' +
-                ", quantity=" + quantity +
+                ", quantityValue=" + quantityValue +
+                ", quantityUnit=" + quantityUnit +
                 ", timestamp=" + timestamp +
                 '}';
     }
-
 }

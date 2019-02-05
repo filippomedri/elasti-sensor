@@ -14,6 +14,7 @@ import tec.units.ri.quantity.Quantities;
 import tec.units.ri.unit.Units;
 
 import java.time.Instant;
+import java.util.Date;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.Assert.*;
@@ -41,7 +42,7 @@ public class ReadingServiceESTest {
 
         Reading reading = new Reading("123",
                 "t-probe",
-                Quantities.getQuantity(0.009, Units.CELSIUS),
+                Quantities.getQuantity(21, Units.CELSIUS),
                 Instant.parse("2018-12-03T10:15:30.00Z")
                 );
 
@@ -50,7 +51,8 @@ public class ReadingServiceESTest {
         assertNotNull(testReading.getId());
 
         assertEquals(testReading.getSensorName(),reading.getSensorName());
-        assertEquals(testReading.getQuantity(),reading.getQuantity());
+        assertEquals(testReading.getQuantityValue(),reading.getQuantityValue());
+        assertEquals(testReading.getQuantityUnit(),reading.getQuantityUnit());
         assertEquals(testReading.getTimestamp(),reading.getTimestamp());
     }
 

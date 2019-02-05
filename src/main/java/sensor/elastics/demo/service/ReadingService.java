@@ -4,7 +4,11 @@ import sensor.elastics.demo.model.Reading;
 
 import java.util.List;
 
+/**
+ * Reading Service methods contract
+ */
 public interface ReadingService {
+
 
     Reading save(Reading reading);
 

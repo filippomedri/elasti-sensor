@@ -8,6 +8,10 @@ import sensor.elastics.demo.repository.ReadingRepositoryES;
 
 import java.util.List;
 
+/**
+ * Reading Service Implementation on ElasticSearch
+ */
+
 @Service
 public class ReadingServiceES implements ReadingService{
 
